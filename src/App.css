@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
+*,*::after,*::before{
+    box-sizing: border-box;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container{
+    display: grid;
+    grid-template-columns:1fr auto;
+    grid-template-rows:1fr auto;
+    grid-template-areas:
+    "image sidebar"
+    "slider sidebar";
+    height: 100vh;
+    width: 100vw;
+    background-color:gray
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.main-image{
+    grid-area: image;
+    width: 100%;
+    height:100%;
+    background-position: top center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.slider{
+    width: 100%;
+    cursor:pointer;
 }
-
-.App-link {
-  color: #61dafb;
+.upload-image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+.upload-image > h1{
+    color: blue;
+    font-size: 2rem;
+}
+.sidebar{
+    grid-area:sidebar;
+    background-color: hsl(292,61%, 80%);
+    border-left: hsl(265, 100%,56%);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: stretch;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+}
+.Sidebaritem{
+    cursor: pointer;
+    border:none;
+    outline:none;
+    background-color: hsl(292,61%, 80%);
+    position:relative;
+    padding:1rem 2.5rem;
+    transition:background-color 150ms;
+}
+.Sidebaritem:hover{
+    background-color: hsl(292, 61%, 54%);
+}
+.Sidebaritem.active{
+    background-color: hsl(292,61%,64%);
+}
+.Sidebaritem::after{
+    content:"";
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    height: 2px;
+    bottom: 0;
+    background-color: hsl(292, 61%,46%);
+}
+.Sidebaritem:last-child::after{
+    display: none;
 }
