@@ -2,7 +2,8 @@ import React,{useState} from 'react'
 import Sidebaritem from './Components/Sidebaritem';
 import Slider from "./Components/Slider";
 import "./App.css";
-
+import * as htmltoImage from "html-to-image";
+import * as download from "downloadjs";
 
 const DEFAULT_OPTION=[
   {
@@ -58,7 +59,7 @@ const DEFAULT_OPTION=[
   {
     name:"Hue Rotate",
     property:"hue-rotate",
-    value:100,
+    value:0,
     range:{
       main:0,
       max:360
@@ -89,7 +90,7 @@ const App = () => {
   }
 const applyFilter=()=>{
   const filters=options.map((Option)=>{
-  return`${Option.property} ${Option.value}${Option.unit}`
+  return`${Option.property}(${Option.value}${Option.unit})`
   });
   return{
     filter:filters.join(" "),
@@ -105,13 +106,19 @@ const Sliderchange=({target})=>{
   });
 });
 }
+const downloadImage=()=>{
+  htmltoImage.toPng(document.getElementById("image")).then((dataUrl)=>{
+    download(dataUrl,`${Date.now()}.png`)
+   })
+
+}
   return (
     <div className="container">
       {image?
  (<div className="main-image" id="image"style={applyFilter()}/>):
 (<div className="upload-image">
   <h1>Photoshop-Clone</h1>
-  <input type="file" accept="images/*" onChange={handleChange}/>
+  <input type="file" accept="image/*" onChange={handleChange}/>
 </div>)}
 <div className="sidebar">
  {
@@ -124,10 +131,11 @@ const Sliderchange=({target})=>{
 
    })
  }
+ <button onClick={downloadImage} className="download">Download</button>
 </div>
 <Slider min={selectedOption.range.min} max={selectedOption.range.max} 
 value={selectedOption.value}
-SliderChange={Sliderchange}/>
+Sliderchange={Sliderchange}/>
 </div>
   );
 }
